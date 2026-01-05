@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ১. থিম কনফিগারেশন */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ২. Base Styles */
+@layer base {
+  body {
+    font-family: var(--font-roboto);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ৩. Components (Pure CSS approach) */
+@layer components {
+  .img-grid {
+    column-count: 1;
+    column-gap: var(--spacing-4);
+  }
+
+  /* Responsive Columns */
+  @media (min-width: 640px) { .img-grid { column-count: 2; } }
+  @media (min-width: 1024px) { .img-grid { column-count: 3; } }
+  @media (min-width: 1280px) { .img-grid { column-count: 4; } }
+
+  .img-grid > a {
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .img-grid > a:not(:first-child) {
+    margin-top: var(--spacing-4);
+  }
+
+  .title-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(0 0 0 / 0.5); /* bg-black/50 */
+    padding-top: var(--spacing-2);
+    padding-bottom: var(--spacing-2);
+    transition-property: all;
+    transition-duration: 500ms;
+    opacity: 0;
+  }
+
+  /* Hover effect (Group hover logic) */
+  .group:hover .title-container {
+    opacity: 1;
+  }
+
+  .title {
+    color: var(--color-white);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-base);
+  }
+
+  @media (min-width: 1024px) {
+    .title {
+      font-size: var(--text-lg);
+    }
+  }
+}
+dialog::backdrop {
+  background: rgba(83, 78, 78, 0.55);
 }
